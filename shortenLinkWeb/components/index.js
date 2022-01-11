@@ -66,8 +66,7 @@ export default class linkShortener {
         
 
         this.$lscicButton.addEventListener("click", async () => {
-            await this.fetchApi();
-            const runBox = setTimeout(this.runBox,2000);
+            this.fetchApi();
         });
         
         this.$lscDomainContainer = document.createElement("div");
@@ -125,22 +124,21 @@ export default class linkShortener {
     }
 
     fetchApi = () => {
-        console.log(this.$lscicInput.value);
-        console.log(sessionStorage.getItem("choice"));
         fetch('https://api.shrtco.de/v2/shorten?url='+this.$lscicInput.value)
         .then(response => response.json())
         .then(data => {
             if(sessionStorage.getItem("choice") === "shrtco.de") {
                 (this._link = data.result.short_link)
+                this.runBox();
             }
             else if(sessionStorage.getItem("choice") === "9qr.de") {
-                (this._link =data.result.short_link2)
+                (this._link = data.result.short_link2)
+                this.runBox();
             }
             else{
                 (this._link =data.result.short_link3)
+                this.runBox();
             }
-            console.log(this._link);
-            return this._link;
         });
     }
 }
